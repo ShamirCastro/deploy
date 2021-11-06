@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sam.Data;
 
-namespace Sam.Data.Migrations
+namespace Sam.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -213,37 +213,206 @@ namespace Sam.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Sam.Models.Cliente", b =>
+            modelBuilder.Entity("Sam.Models.Comentarios", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("MyProperty")
-                        .HasColumnType("text");
-
-                    b.Property<string>("apellido")
-                        .HasColumnType("text");
-
-                    b.Property<string>("direccion")
-                        .HasColumnType("text");
-
-                    b.Property<string>("distrito")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("fecha")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("nombre")
-                        .HasColumnType("text");
-
-                    b.Property<string>("tarjeta")
+                    b.Property<string>("comentario")
                         .HasColumnType("text");
 
                     b.HasKey("id");
 
-                    b.ToTable("Cliente");
+                    b.ToTable("t_comentarios");
+                });
+
+            modelBuilder.Entity("Sam.Models.Construccion", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("descripcionConstruccion")
+                        .HasColumnType("text");
+
+                    b.Property<string>("imagenConstruccion")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("t_construccion");
+                });
+
+            modelBuilder.Entity("Sam.Models.Consultoria", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("descripcionConsultoria")
+                        .HasColumnType("text");
+
+                    b.Property<string>("imagenConsultoria")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("t_consultoria");
+                });
+
+            modelBuilder.Entity("Sam.Models.DiseñoArquitectonico", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("descripcionDA")
+                        .HasColumnType("text");
+
+                    b.Property<string>("imagenDA")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("t_diseñoArquitectonico");
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoCons", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("Consultoriaid")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("procesoConsultoria")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Consultoriaid");
+
+                    b.ToTable("t_procesoCons");
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoConstruccion", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("Construccionid")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("procesoConstruccion")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Construccionid");
+
+                    b.ToTable("t_procesoConstruccion");
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoDA", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("DiseñoArquitectonicoid")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("procesoDA")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("DiseñoArquitectonicoid");
+
+                    b.ToTable("t_procesoDA");
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoSa", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("Saneamientoid")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("procesoSa")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Saneamientoid");
+
+                    b.ToTable("t_procesoSa");
+                });
+
+            modelBuilder.Entity("Sam.Models.Proyectos", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("imagen")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("lugar")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("nombre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("precio")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("id");
+
+                    b.ToTable("t_proyectos");
+                });
+
+            modelBuilder.Entity("Sam.Models.Saneamiento", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("descripcionSa")
+                        .HasColumnType("text");
+
+                    b.Property<string>("imagenSa")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("t_saneamiento");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -295,6 +464,62 @@ namespace Sam.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoCons", b =>
+                {
+                    b.HasOne("Sam.Models.Consultoria", "Consultoria")
+                        .WithMany("procesoConsultoria")
+                        .HasForeignKey("Consultoriaid");
+
+                    b.Navigation("Consultoria");
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoConstruccion", b =>
+                {
+                    b.HasOne("Sam.Models.Construccion", "Construccion")
+                        .WithMany("procesoConstruccion")
+                        .HasForeignKey("Construccionid");
+
+                    b.Navigation("Construccion");
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoDA", b =>
+                {
+                    b.HasOne("Sam.Models.DiseñoArquitectonico", "DiseñoArquitectonico")
+                        .WithMany("procesoDA")
+                        .HasForeignKey("DiseñoArquitectonicoid");
+
+                    b.Navigation("DiseñoArquitectonico");
+                });
+
+            modelBuilder.Entity("Sam.Models.ProcesoSa", b =>
+                {
+                    b.HasOne("Sam.Models.Saneamiento", "Saneamiento")
+                        .WithMany("procesoSa")
+                        .HasForeignKey("Saneamientoid");
+
+                    b.Navigation("Saneamiento");
+                });
+
+            modelBuilder.Entity("Sam.Models.Construccion", b =>
+                {
+                    b.Navigation("procesoConstruccion");
+                });
+
+            modelBuilder.Entity("Sam.Models.Consultoria", b =>
+                {
+                    b.Navigation("procesoConsultoria");
+                });
+
+            modelBuilder.Entity("Sam.Models.DiseñoArquitectonico", b =>
+                {
+                    b.Navigation("procesoDA");
+                });
+
+            modelBuilder.Entity("Sam.Models.Saneamiento", b =>
+                {
+                    b.Navigation("procesoSa");
                 });
 #pragma warning restore 612, 618
         }
